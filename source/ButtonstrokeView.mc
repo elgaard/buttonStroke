@@ -19,7 +19,7 @@ class ButtonstrokeView extends WatchUi.View {
 
     function onLayout(dc) {
       setLayout(Rez.Layouts.MainLayout(dc));
-      strokeText = findDrawableById("stroke");
+      strokeText = findDrawableById("count");
       numStrokesText = findDrawableById("numStrokes");
     }
     function onShow() {
@@ -61,6 +61,13 @@ class ButtonstrokeDelegate extends WatchUi.BehaviorDelegate {
 
   function onKey(evt) {
     var key = evt.getKey();
+    if (WatchUi.KEY_ESC == key || WatchUi.KEY_RESET == key) {
+      var tNow=System.getTimer();
+      numStrokes=0;
+      startTime=tNow;
+      lastTime=tNow;
+      return true;
+    }
     if (WatchUi.KEY_START == key || WatchUi.KEY_ENTER == key) {
       tick();
       return true;
@@ -75,7 +82,7 @@ class ButtonstrokeDelegate extends WatchUi.BehaviorDelegate {
       startTime=tNow;
       lastTime=tNow;
     } else {
-      if ((tNow-lastTime)>5000) {
+      if ((tNow-lastTime)>60000) {
         numStrokes=0;
         startTime=tNow;
         lastTime=tNow;
