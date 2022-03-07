@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout id="MainLayout">
-    <label id="strokehlp" x="130" y="5" text="stroke" color="Graphics.COLOR_WHITE" justification="Graphics.TEXT_JUSTIFY_CENTER" />
-    <label id="numStrokes" x="130" y="37" text="0, press button" color="Graphics.COLOR_YELLOW" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_LARGE" />
-    <label id="stroke" x="130" y="70" text="press button" color="Graphics.COLOR_GREEN" justification="Graphics.TEXT_JUSTIFY_CENTER" font="Graphics.FONT_NUMBER_THAI_HOT"/>
-</layout>
