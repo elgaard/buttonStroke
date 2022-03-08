@@ -5,18 +5,17 @@ using Toybox.System;
 using Toybox.Time;
 using Toybox.Graphics;
 
-
 (:glance)
 class ButtonRateGlance extends WatchUi.GlanceView {
   function initialize() {
-      GlanceView.initialize();
-    }
-    public function onUpdate(dc) as Void {
-      dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-      dc.clear();
-      dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);    
-      dc.drawText(dc.getWidth()/2,dc.getHeight() *.5, Graphics.FONT_SMALL, "button\nrate", Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
-    }
+    GlanceView.initialize();
+  }
+  public function onUpdate(dc) as Void {
+    dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
+    dc.clear();
+    dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);    
+    dc.drawText(dc.getWidth()/2,dc.getHeight() *.5, Graphics.FONT_SMALL, "button\nrate", Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+  }
 }
 
 public class BRCtl {
@@ -25,6 +24,7 @@ public class BRCtl {
   public var lastTime = -1;
 
   public function tick() {
+    //System.println("Tick: ns="+ $.numStrokes+ " t1="+$.startTime+" t2="+$.lastTime);
     var tNow=System.getTimer();
     if (numStrokes<0) {
       numStrokes=0;
@@ -48,24 +48,27 @@ public class BRCtl {
   }
 }
 
- class RateMenu2Delegate extends WatchUi.Menu2InputDelegate {
-     public function initialize(ctl as BRCtl) {
-         Menu2InputDelegate.initialize();
-     }
-     // public function onSelect(item as MenuItem) as Void {
-     //   System.println( "SELECT2: ");
-     //   ctl.tick();
-     //   WatchUi.requestUpdate();
-     // }
-     // public function onBack() as Void {
-     //   System.println("onBack Menu2Del");
-     //   if (ctl.numStrokes>0) {
-     // 	 ctl.restart();
-     // 	 //WatchUi.requestUpdate();
-     //   }
-     //}
- }
+class ButtonRootView extends WatchUi.View {
+  function initialize() {
+    View.initialize();
+  }  
 
+    
+
+  function  onUpdate(dc)  {
+    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+    dc.clear();
+    dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+    dc.drawText(dc.getWidth()/2,dc.getHeight()/2, Graphics.FONT_LARGE, "button rate\ndone", Graphics.TEXT_JUSTIFY_CENTER);
+  }
+
+  
+  function  onLayout(dc as Graphics.Dc) as Void {
+    var ctl = new BRCtl();
+    WatchUi.pushView(new ButtonRateView(ctl), new ButtonRateDelegate(ctl), WatchUi.SLIDE_IMMEDIATE);
+    //WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+  }
+}
 
 class ButtonRateView extends WatchUi.View {
   private var strokeText = null;
@@ -91,7 +94,7 @@ class ButtonRateView extends WatchUi.View {
       dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
       dc.clear();
       dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-      System.println( "UPD: "+dc.getWidth()+","+dc.getHeight());
+      // System.println( "UPD: "+dc.getWidth()+","+dc.getHeight());
 	
       if (ctl.numStrokes>2 && ctl.lastTime > ctl.startTime) {
 	var strokes=60000.0 * ctl.numStrokes/(ctl.lastTime-ctl.startTime);
@@ -117,8 +120,6 @@ class ButtonRateDelegate extends WatchUi.BehaviorDelegate {
     ctl=mctl;
     BehaviorDelegate.initialize();
   }
-  public function onMenu() as Boolean {
-  }
 
   public function onTap(evt) as Boolean {
     ctl.tick();
@@ -130,7 +131,6 @@ class ButtonRateDelegate extends WatchUi.BehaviorDelegate {
     return true;
   }
   public function onBack() as Boolean {
-    System.println("onBack BRDel: ");
     if (ctl.numStrokes>0) {
       ctl.restart();
       WatchUi.requestUpdate();
@@ -139,9 +139,7 @@ class ButtonRateDelegate extends WatchUi.BehaviorDelegate {
     return false;
   }
   public function onSelect() as Boolean {
-    System.println( "SELECT: BRdel");
     ctl.tick();
-    //System.println("Tick: ns="+ $.numStrokes+ " t1="+$.startTime+" t2="+$.lastTime);
     WatchUi.requestUpdate();
     return true;
   }
