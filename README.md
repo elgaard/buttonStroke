@@ -7,3 +7,4 @@ After 3 presses the average rate is displayed. You can continue measuring to inc
 
 If you do not press the button for 60 seconds, the measuring restarts at the next press.
 
+This app is not intended to treat or diagnosis any medical conditions.

@@ -52,21 +52,18 @@ class ButtonRootView extends WatchUi.View {
   function initialize() {
     View.initialize();
   }  
-
-    
-
+      
   function  onUpdate(dc)  {
     dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
     dc.clear();
     dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-    dc.drawText(dc.getWidth()/2,dc.getHeight()/2, Graphics.FONT_LARGE, "button rate\ndone", Graphics.TEXT_JUSTIFY_CENTER);
+    dc.drawText(dc.getWidth()/2,dc.getHeight()/2, Graphics.FONT_LARGE, "button rate", Graphics.TEXT_JUSTIFY_CENTER);
   }
 
   
   function  onLayout(dc as Graphics.Dc) as Void {
     var ctl = new BRCtl();
     WatchUi.pushView(new ButtonRateView(ctl), new ButtonRateDelegate(ctl), WatchUi.SLIDE_IMMEDIATE);
-    //WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
   }
 }
 
@@ -114,7 +111,18 @@ class ButtonRateView extends WatchUi.View {
 }
 
 
-class ButtonRateDelegate extends WatchUi.BehaviorDelegate {
+class ButtonRootDelegate extends WatchUi.BehaviorDelegate {
+  public function initialize() {
+    BehaviorDelegate.initialize();
+  }
+  public function onSelect() as Boolean {
+    var ctl = new BRCtl();
+    WatchUi.pushView(new ButtonRateView(ctl), new ButtonRateDelegate(ctl), WatchUi.SLIDE_IMMEDIATE);
+    return true;
+  }
+}
+
+  class ButtonRateDelegate extends WatchUi.BehaviorDelegate {
   var ctl as BRCtl;
   public function initialize(mctl) {
     ctl=mctl;
