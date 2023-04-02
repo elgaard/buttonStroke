@@ -23,6 +23,9 @@ buildall:
 		--warn; \
 	done
 
+sim:
+	$(SDK_HOME)/bin/monkeydo $(BINDIR)/$(appName).prg $(DEVICE)
+
 run: build
 	@$(SDK_HOME)/bin/connectiq &&\
 	sleep 3 &&\
