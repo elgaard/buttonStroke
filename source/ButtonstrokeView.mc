@@ -50,10 +50,9 @@ class ButtonstrokeDelegate extends WatchUi.BehaviorDelegate {
   function initialize() {
         BehaviorDelegate.initialize();
     }
-
     function onMenu() {
+      return true;
     }
-
   function onTap(evt) {
     tick();
     return true;

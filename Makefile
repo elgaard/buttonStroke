@@ -11,13 +11,14 @@ build:
 	--warn
 
 buildall:
-	@for device in $(devices); do \
+	echo building for $(devices)
+	for device in $(devices); do \
 		echo "-----"; \
 		echo "Building for" $$device; \
-    $(SDK_HOME)/bin/monkeyc \
+		$(SDK_HOME)/bin/monkeyc \
 		--jungles ./monkey.jungle \
 		--device $$device \
-		--output *(BINDIR)/$(appName)-$$device.prg \
+		--output $(BINDIR)/$(appName)-$$device.prg \
 		--private-key $(PRIVATE_KEY) \
 		--warn; \
 	done
