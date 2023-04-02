@@ -24,11 +24,16 @@ buildall:
 	done
 
 
-xxx:
-		echo "Building for" XX; \
-    $(SDK_HOME)/bin/monkeyc --jungles ./monkey.jungle --device legacyherocaptainmarvel --output $(BINDIR)/$(appName)-xxx.prg --private-key $(PRIVATE_KEY) \
+fr255:
+		echo "Building for" $(BINDIR)/$(appName); \
+    $(SDK_HOME)/bin/monkeyc --jungles ./monkey.jungle --device fr255 --output $(BINDIR)/$(appName)-fr255.prg --private-key $(PRIVATE_KEY) \
 		--warn; \
-	done
+
+approachs60:
+		echo "Building for" XX; \
+    $(SDK_HOME)/bin/monkeyc --jungles ./monkey.jungle --device approachs60 --output $(BINDIR)/$(appName)-approachs60.prg --private-key $(PRIVATE_KEY) \
+		--warn; \
+
 
 run: build
 	@$(SDK_HOME)/bin/connectiq &&\
